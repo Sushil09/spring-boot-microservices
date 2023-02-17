@@ -2,6 +2,7 @@ package com.sjsushil09.departmentservice.service;
 
 import com.sjsushil09.departmentservice.dto.DepartmentDto;
 import com.sjsushil09.departmentservice.entity.Department;
+import com.sjsushil09.departmentservice.exception.ResourceNotFoundException;
 import com.sjsushil09.departmentservice.mapper.DepartmentMapper;
 import com.sjsushil09.departmentservice.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
-        Department department = departmentRepository.getDepartmentByDepartmentCode(departmentCode);
+        Department department = departmentRepository.findDepartmentByDepartmentCode(departmentCode).orElseThrow(
+                () -> new ResourceNotFoundException("Department", "id", departmentCode)
+        );
 
         DepartmentDto fetchedDepartment = DepartmentMapper.INSTANCE.departmentToDto(department);
 

@@ -2,6 +2,7 @@ package com.sjsushil09.employeeservice.service;
 
 import com.sjsushil09.employeeservice.dto.EmployeeDto;
 import com.sjsushil09.employeeservice.entity.Employee;
+import com.sjsushil09.employeeservice.exception.ResourceNotFoundException;
 import com.sjsushil09.employeeservice.mapper.EmployeeMapper;
 import com.sjsushil09.employeeservice.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
@@ -25,7 +26,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public EmployeeDto getEmployeeById(Long id) {
-        Employee employee = employeeRepository.findById(id).get();
+        Employee employee = employeeRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", id)
+        );
 
         EmployeeDto fetchedEmployee = EmployeeMapper.INSTANCE.employeeToDto(employee);
 
