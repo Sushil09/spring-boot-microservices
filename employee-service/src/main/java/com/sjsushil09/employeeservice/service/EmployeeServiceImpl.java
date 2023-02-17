@@ -2,6 +2,7 @@ package com.sjsushil09.employeeservice.service;
 
 import com.sjsushil09.employeeservice.dto.EmployeeDto;
 import com.sjsushil09.employeeservice.entity.Employee;
+import com.sjsushil09.employeeservice.mapper.EmployeeMapper;
 import com.sjsushil09.employeeservice.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,20 +15,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
-        Employee employee = new Employee(
-                employeeDto.getId(),
-                employeeDto.getFirstName(),
-                employeeDto.getLastName(),
-                employeeDto.getEmail()
-        );
+        Employee employee = EmployeeMapper.INSTANCE.dtoToEmployee(employeeDto);
         employeeRepository.save(employee);
 
-        EmployeeDto returnedEmployee = new EmployeeDto(
-                employee.getId(),
-                employee.getFirstName(),
-                employee.getLastName(),
-                employee.getEmail()
-        );
+        EmployeeDto returnedEmployee = EmployeeMapper.INSTANCE.employeeToDto(employee);
 
         return returnedEmployee;
     }
@@ -36,12 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeDto getEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id).get();
 
-        EmployeeDto fetchedEmployee = new EmployeeDto(
-                employee.getId(),
-                employee.getFirstName(),
-                employee.getLastName(),
-                employee.getEmail()
-        );
+        EmployeeDto fetchedEmployee = EmployeeMapper.INSTANCE.employeeToDto(employee);
 
         return fetchedEmployee;
     }
