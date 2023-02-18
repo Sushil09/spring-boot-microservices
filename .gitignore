@@ -206,3 +206,7 @@
 /.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml
 /.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_6_2_1.xml
 /.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_eureka_client_4_0_0.xml
+/.idea/libraries/Maven__org_hibernate_validator_hibernate_validator_8_0_0_Final.xml
+/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_validation_3_0_2.xml
+/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_gateway_server_4_0_1.xml
+/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_gateway_4_0_1.xml
