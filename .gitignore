@@ -204,3 +204,5 @@
 /.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_eureka_server_4_0_0.xml
 /.idea/libraries/Maven__org_springframework_spring_context_support_6_0_4.xml
 /.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml
+/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_6_2_1.xml
+/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_netflix_eureka_client_4_0_0.xml
