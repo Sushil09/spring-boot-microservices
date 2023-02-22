@@ -3,11 +3,11 @@ package com.sjsushil09.employeeservice.service;
 import com.sjsushil09.employeeservice.dto.APIResponse;
 import com.sjsushil09.employeeservice.dto.DepartmentDto;
 import com.sjsushil09.employeeservice.dto.EmployeeDto;
+import com.sjsushil09.employeeservice.dto.OrganizationDto;
 import com.sjsushil09.employeeservice.entity.Employee;
 import com.sjsushil09.employeeservice.exception.ResourceNotFoundException;
 import com.sjsushil09.employeeservice.mapper.EmployeeMapper;
 import com.sjsushil09.employeeservice.repository.EmployeeRepository;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -54,14 +54,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 //                getForEntity("http://localhost:8080/api/departments/" + employee.getDepartmentCode(), DepartmentDto.class);
 //        DepartmentDto departmentDto = responseEntity.getBody();
 
-//        Using WebClient
+//        Using WebClient to call Department Service
         DepartmentDto departmentDto = webClient.get().uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
                 .retrieve().bodyToMono(DepartmentDto.class)
                 .block();
 
+//        Using WebClient to call Organization Service
+
+        OrganizationDto organizationDto = webClient.get().uri("http://localhost:8083/api/organizations/"+employee.getOrganizationCode())
+                .retrieve().bodyToMono(OrganizationDto.class)
+                .block();
 //        DepartmentDto departmentDto = apiClient.getDepartmentByCode(employee.getDepartmentCode());
 
-        return new APIResponse(fetchedEmployee,departmentDto);
+        return new APIResponse(fetchedEmployee,departmentDto,organizationDto);
     }
 
     public APIResponse getDefaultDepartment (Long id, Exception exception) {
@@ -69,6 +74,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User", "id", id)
         );
+
+        OrganizationDto organizationDto = new OrganizationDto();
 
         EmployeeDto fetchedEmployee = EmployeeMapper.INSTANCE.employeeToDto(employee);
 
@@ -78,6 +85,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         departmentDto.setDepartmentCode("R&D");
         departmentDto.setDescription("R & D Department in organization");
 
-        return new APIResponse(fetchedEmployee,departmentDto);
+        return new APIResponse(fetchedEmployee,departmentDto,organizationDto);
     }
 }
